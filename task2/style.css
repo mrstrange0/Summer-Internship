@@ -1,0 +1,231 @@
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --text: #1b1f24;
+  --muted: #6b7280;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --border: #e2e5ea;
+  --danger: #dc2626;
+  --success: #16a34a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ---------- Flexbox Navbar ---------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.logo span {
+  color: var(--primary);
+}
+
+.navbar nav ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.navbar nav a {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.navbar nav a:hover {
+  color: var(--primary);
+}
+
+/* ---------- CSS Grid Layout ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.75rem;
+}
+
+.card h2 {
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ---------- Form ---------- */
+.field {
+  margin-bottom: 1rem;
+}
+
+.field label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font: inherit;
+  background: var(--bg);
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+
+.field.invalid input,
+.field.invalid textarea {
+  border-color: var(--danger);
+}
+
+.error {
+  display: block;
+  min-height: 1.1rem;
+  color: var(--danger);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.success {
+  margin-top: 0.75rem;
+  color: var(--success);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font: inherit;
+}
+
+button:hover {
+  background: var(--primary-dark);
+}
+
+/* ---------- To-Do List ---------- */
+.todo-input {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.todo-input input {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font: inherit;
+  background: var(--bg);
+}
+
+.todo-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.todo-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+}
+
+.todo-list li span {
+  word-break: break-word;
+}
+
+.todo-list li.done span {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.todo-list .remove-btn {
+  background: var(--danger);
+  padding: 0.3rem 0.65rem;
+  font-size: 0.8rem;
+  border-radius: 5px;
+}
+
+.todo-list .remove-btn:hover {
+  background: #b91c1c;
+}
+
+.empty-msg {
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 0.5rem 0;
+}
+
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- Responsiveness ---------- */
+@media (max-width: 720px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
