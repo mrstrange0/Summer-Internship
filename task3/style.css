@@ -1,0 +1,91 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f5;
+  color: #222;
+  text-align: center;
+}
+
+header {
+  background: #2f7a5f;
+  color: white;
+  padding: 30px 10px;
+}
+
+section {
+  padding: 30px 15px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+/* Step 1: Responsive Cards */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.card {
+  background: white;
+  border: 2px solid #2f7a5f;
+  border-radius: 8px;
+  padding: 40px;
+  width: 250px;
+  font-weight: bold;
+}
+
+/* Step 2: Carousel */
+.carousel img {
+  max-width: 100%;
+  width: 500px;
+  border-radius: 8px;
+}
+
+.carousel-btns {
+  margin-top: 15px;
+}
+
+button {
+  background: #2f7a5f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #235c47;
+}
+
+/* Step 3: Joke section */
+#jokeText {
+  margin-top: 15px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  font-style: italic;
+}
+
+
+/* Responsive: stack cards on small screens */
+@media (max-width: 600px) {
+  .cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .carousel img {
+    width: 100%;
+  }
+}
