@@ -1,0 +1,136 @@
+const products = [
+  { id: 1, name: "Headphones", category: "Electronics", price: 1500, rating: 4.5, image: "https://loremflickr.com/300/200/headphones" },
+  { id: 2, name: "T-Shirt", category: "Clothing", price: 500, rating: 4.0, image: "https://loremflickr.com/300/200/tshirt" },
+  { id: 3, name: "Novel Book", category: "Books", price: 300, rating: 4.7, image: "https://loremflickr.com/300/200/book" },
+  { id: 4, name: "Smartwatch", category: "Electronics", price: 3000, rating: 4.2, image: "https://loremflickr.com/300/200/smartwatch" },
+  { id: 5, name: "Jeans", category: "Clothing", price: 1200, rating: 3.9, image: "https://loremflickr.com/300/200/jeans" },
+  { id: 6, name: "Cookbook", category: "Books", price: 450, rating: 4.4, image: "https://loremflickr.com/300/200/cookbook" },
+];
+
+const productGrid = document.getElementById("productGrid");
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
+const sortBy = document.getElementById("sortBy");
+
+const cartInfo = document.getElementById("cartInfo");
+const cartPanel = document.getElementById("cartPanel");
+const cartList = document.getElementById("cartList");
+const cartTotal = document.getElementById("cartTotal");
+const clearCartBtn = document.getElementById("clearCartBtn");
+const closeCartBtn = document.getElementById("closeCartBtn");
+
+// Load cart from localStorage (persists across visits)
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+/* ---------- Product Rendering ---------- */
+function renderProducts() {
+  let list = [...products];
+
+  const search = searchInput.value.toLowerCase();
+  if (search) {
+    list = list.filter((p) => p.name.toLowerCase().includes(search));
+  }
+
+  const category = categoryFilter.value;
+  if (category !== "all") {
+    list = list.filter((p) => p.category === category);
+  }
+
+  const sortValue = sortBy.value;
+  if (sortValue === "priceLow") list.sort((a, b) => a.price - b.price);
+  else if (sortValue === "priceHigh") list.sort((a, b) => b.price - a.price);
+  else if (sortValue === "rating") list.sort((a, b) => b.rating - a.rating);
+
+  productGrid.innerHTML = "";
+  list.forEach((p) => {
+    const card = document.createElement("div");
+    card.classList.add("product-card");
+    card.innerHTML = `
+      <img src="${p.image}" alt="${p.name}" loading="lazy">
+      <h3>${p.name}</h3>
+      <p>Category: ${p.category}</p>
+      <p>Price: ₹${p.price}</p>
+      <p>Rating: ${p.rating} ⭐</p>
+      <button data-id="${p.id}">Add to Cart</button>
+    `;
+    productGrid.appendChild(card);
+  });
+}
+
+/* ---------- Cart Logic ---------- */
+function addToCart(id) {
+  const product = products.find((p) => p.id === id);
+  const existing = cart.find((item) => item.id === id);
+
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ ...product, qty: 1 });
+  }
+  saveCart();
+  renderCart();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter((item) => item.id !== id);
+  saveCart();
+  renderCart();
+}
+
+function renderCart() {
+  cartList.innerHTML = "";
+  let total = 0;
+  let count = 0;
+
+  cart.forEach((item) => {
+    total += item.price * item.qty;
+    count += item.qty;
+
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>${item.name} x${item.qty}</span>
+      <button data-id="${item.id}">Remove</button>
+    `;
+    cartList.appendChild(li);
+  });
+
+  cartTotal.textContent = `Total: ₹${total}`;
+  cartInfo.textContent = `Cart: ${count} items | ₹${total}`;
+}
+
+/* ---------- Event Listeners ---------- */
+let searchTimer;
+searchInput.addEventListener("input", () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(renderProducts, 250); // wait until typing pauses
+});
+categoryFilter.addEventListener("change", renderProducts);
+sortBy.addEventListener("change", renderProducts);
+
+productGrid.addEventListener("click", (e) => {
+  if (e.target.tagName === "BUTTON") {
+    addToCart(Number(e.target.dataset.id));
+  }
+});
+
+cartList.addEventListener("click", (e) => {
+  if (e.target.tagName === "BUTTON") {
+    removeFromCart(Number(e.target.dataset.id));
+  }
+});
+
+cartInfo.addEventListener("click", () => cartPanel.classList.add("open"));
+closeCartBtn.addEventListener("click", () => cartPanel.classList.remove("open"));
+clearCartBtn.addEventListener("click", () => {
+  cart = [];
+  saveCart();
+  renderCart();
+});
+
+/* ---------- Initial Render ---------- */
+renderProducts();
+renderCart();
